@@ -180,7 +180,10 @@ class CalendarTab(ttk.Frame):
         self.selected = self.today
         self.weeks = []          
         self.events = {}         
-        self.row_events = {}     
+        self.row_events = {}
+
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
 
         self._build_ui()
         self._set_month(self.year, self.month)
@@ -670,6 +673,10 @@ class CalendarTab(ttk.Frame):
             self.selected = planted
             self._set_month(planted.year, planted.month)
             self.refresh()
+
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
 
         btns = ttk.Frame(f)
         btns.grid(row=5, column=0, columnspan=2, sticky="e", pady=(12, 0))
