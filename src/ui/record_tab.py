@@ -27,6 +27,9 @@ class RecordTab(ttk.Frame):
         self._build()
         self.refresh()
 
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
+
     def heading_text(self):
         return self.NOUN_PLURAL.title()
 
@@ -252,3 +255,7 @@ class RecordTab(ttk.Frame):
             delete_func=lambda: attachments.delete_owner(self.KIND, row["id"]))
         if deleted:
             self.refresh()
+
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
