@@ -190,6 +190,9 @@ class TimetableTab(ttk.Frame):
         self._build_ui()
         self.refresh()
 
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
+
     def _build_ui(self):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
@@ -651,6 +654,9 @@ class TimetableTab(ttk.Frame):
                  "start": to_minutes(r["start_time"]),
                  "end": to_minutes(r["end_time"])} for r in rows]
 
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
 
 if __name__ == "__main__":
     root = tk.Tk()
