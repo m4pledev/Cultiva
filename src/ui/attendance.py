@@ -195,6 +195,8 @@ class AttendanceTab(ttk.Frame):
         self.dirty = False     
         self._loading = False  
         self.summary = ([], None)
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
 
         self._build_ui()
         self.refresh()
@@ -609,6 +611,10 @@ class AttendanceTab(ttk.Frame):
                 parent=self)
             return
         messagebox.showinfo("Exported", "Saved:\n%s" % path, parent=self)
+
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
 
 
 if __name__ == "__main__":
