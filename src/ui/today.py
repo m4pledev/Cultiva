@@ -177,6 +177,9 @@ class TodayTab(ttk.Frame):
         self._build_ui()
         self.refresh()
 
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
+
     def _build_ui(self):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)
@@ -398,6 +401,9 @@ class TodayTab(ttk.Frame):
                                   value=percent, mode="determinate")
             bar.pack(fill="x", pady=(0, 8))
 
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
 
 if __name__ == "__main__":
     root = tk.Tk()
