@@ -80,6 +80,8 @@ class AgendaTab(ttk.Frame):
         self.plot_ids = {}    
         self.all_plots_label = "All " + tr("plots").lower()
         self._build()
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
 
     def _build(self):
         self._build_quick_add()
@@ -400,3 +402,7 @@ class AgendaTab(ttk.Frame):
         if deleted:
             self.refresh()
             self.message.ok("Task deleted.")
+
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
