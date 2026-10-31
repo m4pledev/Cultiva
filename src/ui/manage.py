@@ -552,6 +552,9 @@ class ManageTab(ttk.Frame):
             self.panels.append(panel)
         self.notebook.bind("<<NotebookTabChanged>>", lambda event: self.refresh())
 
+        self.root = ttk.Frame.winfo_toplevel(self)
+        self.auto_refresh()
+
     def _current_panel(self):
         path = self.notebook.select()
         if not path:
@@ -571,3 +574,7 @@ class ManageTab(ttk.Frame):
         panel = self._current_panel()
         if panel is not None:
             panel.refresh()
+
+    def auto_refresh(self):
+        self.refresh()
+        self.root.after(5000, self.auto_refresh)
